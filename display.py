@@ -50,6 +50,7 @@ def save_extension( screen, fname ):
     p = Popen( ['convert', ppm_name, fname ], stdin=PIPE, stdout = PIPE )
     p.communicate()
     remove(ppm_name)
+    print "saved: " + fname
 
 def display( screen ):
     ppm_name = 'pic.ppm'
@@ -59,7 +60,7 @@ def display( screen ):
     remove(ppm_name)
 
 def make_animation( name ):
-    name_arg = 'anim/' + name + '*'
+    name_arg = name + '*'
     name = name + '.gif'
     print 'Saving animation as ' + name
     f = fork()
