@@ -97,15 +97,13 @@ def second_pass( commands, num_frames):
                 val = xi + 1.0*(xf - xi)*(i - ti)/(tf - ti)
                 symbols[i][name] = (val, 'knob')
 
-    print symbols
+    #print symbols
     return symbols
 
 def run(filename):
     "function runs an mdl file"
     color = [255, 255, 255]
-    tmp = new_matrix()
-    ident( tmp )
-
+  
     p = mdl.parseFile(filename)
 
     if p:
@@ -114,8 +112,6 @@ def run(filename):
         print "Parsing failed."
         return
 
-    ident(tmp)
-    stack = [ [x[:] for x in tmp] ]
     screen = new_screen()
     tmp = []
     step = 0.1
@@ -129,6 +125,13 @@ def run(filename):
         os.chdir('anim')
 
     for i in range(frames):
+        clear_screen( screen)
+        tmp = new_matrix()
+        ident(tmp)
+        stack = [ [x[:] for x in tmp] ]
+        print stack
+
+        
         if frames > 1:
             file_name = basename + "%03d"%i + ".png"
         else:
@@ -138,6 +141,7 @@ def run(filename):
         is_saved = False
 
         if frames > 1: symbol_vals = symbols[i]
+        print symbol_vals
         for command in commands:
             #print command
             c = command[0]
@@ -152,8 +156,12 @@ def run(filename):
                 tmp = []
             elif c == 'sphere':
                 add_sphere(tmp, args[0], args[1], args[2], args[3], step)
+                #print tmp
+                #print stack[-1]
                 matrix_mult( stack[-1], tmp )
+                #print "\n"*5 + str(tmp)
                 draw_polygons(tmp, screen, color)
+                #print screen
                 tmp = []
             elif c == 'torus':
                 add_torus(tmp, args[0], args[1], args[2], args[3], args[4], step)
@@ -213,6 +221,7 @@ def run(filename):
                 is_saved = True
 
         if (not is_saved):
+            #print screen
             save_extension(screen, file_name)
                                 
     make_animation(basename)
