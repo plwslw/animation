@@ -1,9 +1,10 @@
-frames 17
-basename philosophy
+frames 50
+basename free_throw
 //BODY
 push
-move 250 250 0
-rotate y -30
+move 75 250 0
+scale .5 .5 .5
+rotate y 75
 box -100 125 50 200 250 100
 //HEAD
 push
@@ -11,27 +12,47 @@ move 0 175 0
 rotate y 90
 sphere 0 0 0 50
 pop
+//KNOBS
+set shoulder 1
+set elbow 0
+vary shoulder 0 10 0 1
+vary elbow 0 10 1 0
+vary spin 10 49 0 12
+vary x 10 49 0 1
+vary y 10 29 0 1
+vary y 30 49 1 0
 //LEFT ARM
 push
 move -100 125 0
-rotate x -45
+rotate x -90
+rotate x -20 shoulder
 box -40 0 40 40 100 80
 //LEFT LOWER ARM
 push
 move -20 -100 0
+rotate x -110 elbow
 box -10 0 10 20 125 20
 pop
 pop
 //RIGHT ARM
 push
 move 100 125 0
-rotate x -45
+rotate x -90
+rotate x -20 shoulder
 box 0 0 40 40 100 80
 //RIGHT LOWER ARM
 push
 move 20 -100 0
-rotate x -20
+rotate x -110 elbow
 box -10 0 10 20 125 20
+//BALL
+push
+rotate x 7 spin
+move 400 0 0 x
+move 0 150 0 y
+move 20 125 20
+sphere 0 -250 0 50
+pop
 pop
 pop
 //LEFT LEG
@@ -43,5 +64,5 @@ pop
 push
 move 100 -125 0
 box -50 0 40 50 120 80
-display
-save robot.png
+//display
+//save robot.png

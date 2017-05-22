@@ -81,12 +81,12 @@ def second_pass( commands, num_frames):
             name = args[0]
             val = args[1]
             for i in range(num_frames):
-                symbols[i][name] = val
+                symbols[i][name] = (val, 'knob')
         if c == 'setall':
             val = args[0]
             for i in range(num_frames):
                 for key in symbols[i]:
-                    symbols[i][key] = val
+                    symbols[i][key] = (val, 'knob')
         if c == 'vary':
             name = args[0]
             ti = args[1] #start frame
@@ -140,8 +140,10 @@ def run(filename):
         #print file_name
         is_saved = False
 
-        if frames > 1: symbol_vals = symbols[i]
-        print symbol_vals
+        if frames > 1:
+            symbol_vals = symbols[i]
+            print symbol_vals
+            
         for command in commands:
             #print command
             c = command[0]
@@ -175,7 +177,6 @@ def run(filename):
                     if args[3] in symbol_vals:
                         knob = symbol_vals[args[3]][0]
                     else: knob = 0
-                    knob = symbol_vals[args[3]][0]
                     tmp = make_translate(knob*args[0], knob*args[1], knob*args[2])
                 matrix_mult(stack[-1], tmp)
                 stack[-1] = [x[:] for x in tmp]
@@ -224,4 +225,5 @@ def run(filename):
             #print screen
             save_extension(screen, file_name)
                                 
-    make_animation(basename)
+    if frames > 1:
+        make_animation(basename)
